@@ -1,0 +1,8 @@
+# Public repo = only the files the website loads (assets/) + README.
+# Theme, pages, guides, backups and scripts stay on this computer.
+/*
+!/.gitignore
+!/.nojekyll
+!/CNAME
+!/README.md
+!/assets/
