@@ -625,9 +625,9 @@ body#layout .nav-section{position:static;opacity:1;visibility:visible;transform:
 body#layout .footer-grid{display:block}
 
 /* Pages loaded from GitHub (data-ggs-page): shimmer skeleton while loading, then sections fade up in turn */
-[data-ggs-page].is-loading{position:relative;min-height:320px;overflow:hidden}
-[data-ggs-page].is-loading>*{opacity:0}
-[data-ggs-page].is-loading::before{content:"";position:absolute;inset:0;
+[data-ggs-page]:not(.is-loaded):not(.is-failed){animation:ggsWait 8s step-end;position:relative;min-height:320px;overflow:hidden}
+[data-ggs-page]:not(.is-loaded):not(.is-failed)>*{animation:ggsGone 8s step-end}
+[data-ggs-page]:not(.is-loaded):not(.is-failed)::before{content:"";position:absolute;inset:0;
   --sk:color-mix(in srgb,currentColor 10%,transparent);
   background:
     linear-gradient(var(--sk),var(--sk)) 0 0/55% 28px no-repeat,
@@ -638,11 +638,16 @@ body#layout .footer-grid{display:block}
     linear-gradient(var(--sk),var(--sk)) 0 172px/31% 120px no-repeat,
     linear-gradient(var(--sk),var(--sk)) 34.5% 172px/31% 120px no-repeat,
     linear-gradient(var(--sk),var(--sk)) 100% 172px/31% 120px no-repeat;
-  border-radius:16px}
-[data-ggs-page].is-loading::after{content:"";position:absolute;inset:0;transform:translateX(-100%);
+  border-radius:16px;animation:ggsDone 0s 8s forwards}
+[data-ggs-page]:not(.is-loaded):not(.is-failed)::after{content:"";position:absolute;inset:0;transform:translateX(-100%);
   background:linear-gradient(90deg,transparent,color-mix(in srgb,currentColor 9%,transparent),transparent);
-  animation:ggsShimmer 1.15s ease-in-out infinite}
+  animation:ggsShimmer 1.15s ease-in-out infinite,ggsDone 0s 8s forwards}
 @keyframes ggsShimmer{to{transform:translateX(100%)}}
+/* Loading state from the first paint, before the script runs: the Blogger fallback text is hidden for at most 8 s,
+   so it comes back by itself if the script never loads (and at once, with .is-failed, if the page file can't be fetched) */
+@keyframes ggsWait{0%,100%{-webkit-text-fill-color:transparent}}
+@keyframes ggsGone{0%,100%{opacity:0}}
+@keyframes ggsDone{to{opacity:0;visibility:hidden}}
 [data-ggs-page].is-loaded>*{animation:ggsPageIn .55s cubic-bezier(.2,.7,.2,1) both}
 [data-ggs-page].is-loaded>*:nth-child(2){animation-delay:.06s}
 [data-ggs-page].is-loaded>*:nth-child(3){animation-delay:.12s}
@@ -651,6 +656,6 @@ body#layout .footer-grid{display:block}
 [data-ggs-page].is-loaded>*:nth-child(n+6){animation-delay:.3s}
 @keyframes ggsPageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){
-  [data-ggs-page].is-loading::after{display:none}
+  [data-ggs-page]:not(.is-loaded):not(.is-failed)::after{display:none}
   [data-ggs-page].is-loaded>*{animation:none}
 }
