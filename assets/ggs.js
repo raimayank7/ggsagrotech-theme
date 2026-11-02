@@ -263,7 +263,12 @@
   }
   var NOTFOUND='<div class="notfound"><div class="code grad">404</div><h1>This page took a wrong turn.</h1><p>The link may be broken or the page was moved. Try a search, or head back home.</p><a class="btn btn-primary" href="/">Back to home</a> <button class="btn btn-ghost" data-open-search="1" type="button">Search the site</button></div>';
   var EMPTY='<div class="empty"><h2>Nothing here yet</h2><p>No posts matched. Try another keyword.</p><button class="btn btn-ghost" data-open-search="1" type="button">Search again</button></div>';
-  function crumbs(label){return '<nav aria-label="Breadcrumb" class="crumbs"><a href="/">home</a>'+(label&&IS_POST?'<span class="sep">/</span><a href="/search/label/'+encodeURIComponent(label)+'">'+esc(label)+'</a>':'')+'<span class="sep">/</span><span aria-current="page">'+(IS_PAGE?'page':'post')+'</span></nav>'}
+  function crumbs(label){return '<nav aria-label="Breadcrumb" class="crumbs"><a href="/">home</a>'+(label&&IS_POST?'<span class="sep">/</span><a href="/search/label/'+encodeURIComponent(label)+'">'+esc(label)+'</a>':'')+'<span class="sep">/</span><span aria-current="page">'+esc(crumbName())+'</span></nav>'}
+  // older uploaded themes title search, label and 404 pages "G.G.S Agrotech | G.G.S Agrotech"
+  if(/^G\.G\.S Agrotech \| G\.G\.S Agrotech$/.test(document.title)){var lm=location.pathname.match(/^\/search\/label\/([^\/?#]+)/),sq=new URLSearchParams(location.search).get('q');
+    document.title=(lm?decodeURIComponent(lm[1]).replace(/\+/g,' '):sq?'Search: '+sq:document.body.className.indexOf('error')>-1||!/^\/(search|$)/.test(location.pathname)?'Page Not Found':'Blog')+' | G.G.S Agrotech'}
+  // the current page's own name (its title before " | G.G.S Agrotech"), not the words "page"/"post"
+  function crumbName(){var t=(document.title||'').split(/\s+[|–—]\s+/)[0].trim();return t&&t.length<=60&&!/^G\.G\.S Agrotech$/i.test(t)?t:(IS_PAGE?'page':'post')}
   var TOC='<details class="toc" hidden="hidden" id="toc" open="open"><summary>On this page</summary></details>';
   function shareCta(title){
     return '<div class="share"><span class="share-label">Share this 👇</span>'+

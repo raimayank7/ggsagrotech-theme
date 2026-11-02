@@ -603,7 +603,7 @@ a.contact-card:hover{color:var(--text);border-color:var(--grad-b);transform:tran
   .pc-ctas .btn{flex:1 1 100%}
   .pc-art{padding:22px;gap:10px}
   .promo{font-size:13px}
-  .fab-wa{width:56px;padding:0;justify-content:center}
+  .fab-wa{width:50px;height:50px;right:12px;bottom:14px;padding:0;justify-content:center}   /* smaller and closer to the edge so it does not sit on text */
   .fab-wa .label{display:none}
   .entry{font-size:17px}
   .comments .comment-replies{margin-left:20px}
@@ -658,4 +658,15 @@ body#layout .footer-grid{display:block}
 @media (prefers-reduced-motion:reduce){
   [data-ggs-page]:not(.is-loaded):not(.is-failed)::after{display:none}
   [data-ggs-page].is-loaded>*{animation:none}
+}
+
+/* very small phones (320–380 px): the header (logo, search, theme, menu) fits without sideways scrolling */
+@media (max-width:380px){
+  .site-header .container{padding:0 12px}
+  .nav-wrap{gap:8px}
+  .nav-actions{gap:4px}
+  .nav-actions .icon-btn,.search-trigger{width:36px;height:36px}
+  .brand{min-width:0;gap:7px}
+  .brand-emblem{width:32px;height:35px}
+  .brand-name{font-size:16px;overflow:hidden;text-overflow:ellipsis}
 }
